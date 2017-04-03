@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clTask"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/taskItemPadding" >
+
+    <TextView
+        android:id="@+id/tvTaskTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:textSize="@dimen/taskItemTitleTextSize"/>
+
+    <TextView
+        android:id="@+id/tvTaskDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="4"/>
+
+    <TextView
+        android:id="@+id/taskCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/taskItemCategoryTextSize"/>
+</LinearLayout>

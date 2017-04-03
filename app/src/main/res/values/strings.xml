@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tasky</string>
+    <string name="bNewCategoryText">New category</string>
+    <string name="bNewTaskText">New task</string>
+</resources>
