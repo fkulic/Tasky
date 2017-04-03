@@ -32,4 +32,11 @@ public class Task {
     public String getPriority() {
         return mPriority;
     }
+
+    static class TaskPriority {
+        public static final String PRIO_URGENT = "Urgent";
+        public static final String PRIO_HIGH = "High";
+        public static final String PRIO_NORMAL = "Normal";
+        public static final String PRIO_LOW = "Low";
+    }
 }
