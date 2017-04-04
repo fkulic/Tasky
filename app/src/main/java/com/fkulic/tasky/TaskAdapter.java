@@ -48,8 +48,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return mTasks.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public void addNewTask(Task task) {
+        mTasks.add(task);
+        notifyDataSetChanged();
+    }
 
+    static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout llTask;
         TextView tvTaskTitle;
         TextView tvTaskDescription;

@@ -5,14 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
+
+import static com.fkulic.tasky.TaskDBHelper.Schema.TABLE_CATEGORIES;
 
 /**
  * Created by Filip on 3.4.2017..
  */
 
 public class TaskDBHelper extends SQLiteOpenHelper {
+    private static final String TAG = "TaskDBHelper";
 
     private static final String CREATE_TABLE_TASKS = "CREATE TABLE " + Schema.TABLE_TASKS + " (" +
             Schema.TASK_TITLE + " TEXT," +
@@ -20,14 +24,14 @@ public class TaskDBHelper extends SQLiteOpenHelper {
             Schema.TASK_CATEGORY + " TEXT," +
             Schema.TASK_PRIORITY + " TEXT);";
 
-    private static final String CREATE_TABLE_CATEGORIES = "CREATE TABLE " + Schema.TASK_CATEGORY + " (" +
-            Schema.CATEGORY_NAME + "TEXT);";
+    private static final String CREATE_TABLE_CATEGORIES = "CREATE TABLE " + Schema.TABLE_CATEGORIES + " (" +
+            Schema.CATEGORY_NAME + " TEXT);";
 
     private static final String DROP_TABLE_TASKS = "DROP TABLE IF EXISTS " + Schema.TABLE_TASKS + ";";
-    private static final String DROP_TABKE_CATEGORY = "DROP TABLE IF EXISTS " + Schema.TABLE_CATEGORIES + ";";
+    private static final String DROP_TABKE_CATEGORY = "DROP TABLE IF EXISTS " + TABLE_CATEGORIES + ";";
 
     private static final String SELECT_TASKS = "SELECT * FROM " + Schema.TABLE_TASKS + ";";
-    private static final String SELECT_CATEGORIES = "SELECT * FROM " + Schema.TABLE_CATEGORIES + ";";
+    private static final String SELECT_CATEGORIES = "SELECT * FROM " + TABLE_CATEGORIES + ";";
 
     private static TaskDBHelper taskDBHelper = null;
 
@@ -35,7 +39,10 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         super(context, Schema.DB_NAME, null, Schema.DB_VERSION);
     }
 
-    public static synchronized TaskDBHelper getInstance() {
+    public static synchronized TaskDBHelper getInstance(Context context) {
+        if (taskDBHelper == null) {
+            taskDBHelper = new TaskDBHelper(context);
+        }
         return taskDBHelper;
     }
 
@@ -43,7 +50,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_TASKS);
         db.execSQL(CREATE_TABLE_CATEGORIES);
-        insertDefaultCategories();
+        insertDefaultCategories(db);
     }
 
     @Override
@@ -69,7 +76,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(Schema.CATEGORY_NAME, category);
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.insert(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME, cv);
+        sqLiteDatabase.insert(TABLE_CATEGORIES, Schema.CATEGORY_NAME, cv);
         sqLiteDatabase.close();
     }
 
@@ -85,6 +92,9 @@ public class TaskDBHelper extends SQLiteOpenHelper {
                 String priority = cursor.getString(3);
                 tasks.add(new Task(title, description, category, priority));
             } while (cursor.moveToNext());
+        } else {
+            Log.d(TAG, "No tasks in DB.");
+            return new ArrayList<>();
         }
         cursor.close();
         sqLiteDatabase.close();
@@ -100,16 +110,25 @@ public class TaskDBHelper extends SQLiteOpenHelper {
                 String category = cursor.getString(0);
                 categories.add(category);
             } while (cursor.moveToNext());
+        } else {
+            Log.d(TAG, "No categories in DB");
+            return new ArrayList<>();
         }
         cursor.close();
         sqLiteDatabase.close();
         return categories;
     }
 
-    private void insertDefaultCategories() {
-        this.insertCategory("Job");
-        this.insertCategory("School");
-        this.insertCategory("Health");
+    private void insertDefaultCategories(SQLiteDatabase sb) {
+        ContentValues values = new ContentValues();
+        values.put(Schema.CATEGORY_NAME, "Job");
+        sb.insert(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME, values);
+        values.put(Schema.CATEGORY_NAME, "School");
+        sb.insert(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME, values);
+        values.put(Schema.CATEGORY_NAME, "Home");
+        sb.insert(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME, values);
+        values.put(Schema.CATEGORY_NAME, "Health");
+        sb.insert(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME, values);
     }
 
     static class Schema {
@@ -122,7 +141,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         public static final String TASK_CATEGORY = "category";
         public static final String TASK_PRIORITY = "priority";
 
-        public static final String TABLE_CATEGORIES = "table_categories";
+        public static final String TABLE_CATEGORIES = "categories";
         public static final String CATEGORY_NAME = "name";
 
 

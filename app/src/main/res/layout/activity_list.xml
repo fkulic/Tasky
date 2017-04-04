@@ -20,7 +20,7 @@
         android:id="@+id/bNewCategory"
         android:layout_width="0dp"
         android:layout_height="@dimen/bHeight"
-        android:text="@string/bNewCategoryText"
+        android:text="@string/NewCategory"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/bNewTask"/>
@@ -29,7 +29,7 @@
         android:id="@+id/bNewTask"
         android:layout_width="0dp"
         android:layout_height="@dimen/bHeight"
-        android:text="@string/bNewTaskText"
+        android:text="@string/NewTask"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/bNewCategory"
         app:layout_constraintRight_toRightOf="parent"/>

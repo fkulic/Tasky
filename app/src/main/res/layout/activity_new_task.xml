@@ -7,4 +7,114 @@
     android:layout_height="match_parent"
     tools:context="com.fkulic.tasky.NewTaskActivity">
 
+    <android.support.constraint.Guideline
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:id="@+id/leftConstraintGuideLine"
+        app:layout_constraintGuide_begin="@dimen/newTaskLeftGuideline"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:id="@+id/rightConstraintGuideLine"
+        app:layout_constraintGuide_end="@dimen/newTaskLeftGuideline"/>
+
+    <TextView
+        android:id="@+id/tvNewTaskTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/newTaskTitle"
+        android:textSize="@dimen/tvNewTaskTextSize"
+        app:layout_constraintLeft_toLeftOf="@+id/leftConstraintGuideLine"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etNewTaskTitle"/>
+
+    <EditText
+        android:id="@+id/etNewTaskTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/marginLeftControlNewTask"
+        android:layout_marginTop="8dp"
+        android:textSize="@dimen/etNewTaskTextSize"
+        android:inputType="text"
+        app:layout_constraintLeft_toRightOf="@+id/tvNewTaskTitle"
+        app:layout_constraintRight_toRightOf="@id/rightConstraintGuideLine"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvNewTaskCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/newTaskCategory"
+        android:textSize="@dimen/tvNewTaskTextSize"
+        app:layout_constraintLeft_toLeftOf="@+id/leftConstraintGuideLine"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sNewTaskCategory"
+        app:layout_constraintTop_toBottomOf="@+id/etNewTaskTitle"/>
+
+    <Spinner
+        android:id="@+id/sNewTaskCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/marginLeftControlNewTask"
+        android:layout_marginTop="@dimen/marginTopControlNewTask"
+        app:layout_constraintLeft_toRightOf="@+id/tvNewTaskCategory"
+        app:layout_constraintRight_toRightOf="@+id/rightConstraintGuideLine"
+        app:layout_constraintTop_toBottomOf="@id/etNewTaskTitle"/>
+
+    <TextView
+        android:id="@+id/tvNewTaskPriority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTopControlNewTask"
+        android:text="@string/newTaskPriority"
+        android:textSize="@dimen/tvNewTaskTextSize"
+        app:layout_constraintLeft_toLeftOf="@+id/leftConstraintGuideLine"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sNewTaskPriority"
+        app:layout_constraintTop_toBottomOf="@+id/sNewTaskCategory"/>
+
+    <Spinner
+        android:id="@+id/sNewTaskPriority"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/marginLeftControlNewTask"
+        android:layout_marginTop="@dimen/marginTopControlNewTask"
+        app:layout_constraintLeft_toRightOf="@+id/tvNewTaskPriority"
+        app:layout_constraintRight_toRightOf="@+id/rightConstraintGuideLine"
+        app:layout_constraintTop_toBottomOf="@id/sNewTaskCategory"/>
+
+    <TextView
+        android:id="@+id/tvNewTaskDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTopControlNewTask"
+        android:text="@string/newTaskDescription"
+        android:textSize="@dimen/tvNewTaskTextSize"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="@+id/leftConstraintGuideLine"
+        app:layout_constraintRight_toRightOf="@+id/rightConstraintGuideLine"
+        app:layout_constraintTop_toBottomOf="@+id/sNewTaskPriority"/>
+
+    <EditText
+        android:id="@+id/etNewTaskDescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:inputType="textMultiLine"
+        android:gravity="left"
+        app:layout_constraintBottom_toTopOf="@+id/bAddNewTask"
+        app:layout_constraintLeft_toLeftOf="@+id/leftConstraintGuideLine"
+        app:layout_constraintRight_toRightOf="@+id/rightConstraintGuideLine"
+        app:layout_constraintTop_toBottomOf="@+id/tvNewTaskDescription"/>
+
+    <Button
+        android:id="@+id/bAddNewTask"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bHeight"
+        android:text="@string/addNewTask"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Tasky</string>
-    <string name="bNewCategoryText">New category</string>
-    <string name="bNewTaskText">New task</string>
+    <string name="NewCategory">New category</string>
+    <string name="NewTask">New task</string>
+    <string name="addNewTask">Add new task</string>
+    <string name="newTaskTitle">Title:</string>
+    <string name="newTaskCategory">Category:</string>
+    <string name="newTaskPriority">Priority:</string>
+    <string name="newTaskDescription">Description:</string>
 </resources>

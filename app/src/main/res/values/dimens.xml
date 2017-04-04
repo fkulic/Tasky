@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="bHeight">40dp</dimen>
+    <dimen name="bHeight">50dp</dimen>
     <dimen name="taskItemPadding">8dp</dimen>
     <dimen name="taskItemTitleTextSize">20sp</dimen>
     <dimen name="taskItemCategoryTextSize">18sp</dimen>
+    <dimen name="etNewTaskTextSize">18sp</dimen>
+    <dimen name="tvNewTaskTextSize">18sp</dimen>
+    <dimen name="marginLeftControlNewTask">16dp</dimen>
+    <dimen name="marginTopControlNewTask">16dp</dimen>
+    <dimen name="newTaskLeftGuideline">8dp</dimen>
 </resources>
