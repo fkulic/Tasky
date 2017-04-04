@@ -11,16 +11,16 @@
         android:id="@+id/rvTasks"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/bNewCategory"
+        app:layout_constraintBottom_toBottomOf="@+id/bEditCategories"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/bNewCategory"
+        android:id="@+id/bEditCategories"
         android:layout_width="0dp"
         android:layout_height="@dimen/bHeight"
-        android:text="@string/NewCategory"
+        android:text="@string/EditCategories"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/bNewTask"/>
@@ -31,6 +31,6 @@
         android:layout_height="@dimen/bHeight"
         android:text="@string/NewTask"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/bNewCategory"
+        app:layout_constraintLeft_toRightOf="@+id/bEditCategories"
         app:layout_constraintRight_toRightOf="parent"/>
 </android.support.constraint.ConstraintLayout>

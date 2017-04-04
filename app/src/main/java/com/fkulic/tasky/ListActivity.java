@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
 
 public class ListActivity extends Activity implements View.OnClickListener {
-    private static final String TAG = "ListActivity";
 
     public static final int REQ_CODE_TASK = 9;
     public static final int REQ_CODE_CATEGORY = 10;
@@ -28,7 +26,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
     RecyclerView rvTasks;
     RecyclerView.LayoutManager mManager;
     RecyclerView.ItemDecoration mItemDecoration;
-    Button bNewCategory;
+    Button bEditCategories;
     Button bNewTask;
 
     @Override
@@ -45,7 +43,6 @@ public class ListActivity extends Activity implements View.OnClickListener {
     }
 
     private void setUpUI() {
-        Log.d(TAG, "setUpUI: started");
         this.rvTasks = (RecyclerView) findViewById(R.id.rvTasks);
         this.mTaskAdapter = new TaskAdapter(new ArrayList<Task>());
         this.mManager = new LinearLayoutManager(this);
@@ -53,12 +50,11 @@ public class ListActivity extends Activity implements View.OnClickListener {
         this.rvTasks.addItemDecoration(this.mItemDecoration);
         this.rvTasks.setLayoutManager(this.mManager);
         this.rvTasks.setAdapter(this.mTaskAdapter);
-        this.bNewCategory = (Button) findViewById(R.id.bNewCategory);
+        this.bEditCategories = (Button) findViewById(R.id.bEditCategories);
         this.bNewTask = (Button) findViewById(R.id.bNewTask);
 
-        this.bNewCategory.setOnClickListener(this);
+        this.bEditCategories.setOnClickListener(this);
         this.bNewTask.setOnClickListener(this);
-        Log.d(TAG, "setUpUI: ended");
     }
 
     @Override
@@ -66,8 +62,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
         Intent intent = null;
         int reqCode = 0;
         switch (v.getId()) {
-            case R.id.bNewCategory:
-                intent = new Intent(getApplicationContext(), NewCategoryActivity.class);
+            case R.id.bEditCategories:
+                intent = new Intent(getApplicationContext(), EditCategoriesActivity.class);
                 reqCode = REQ_CODE_CATEGORY;
                 break;
             case R.id.bNewTask:

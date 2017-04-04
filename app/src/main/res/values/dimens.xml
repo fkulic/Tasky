@@ -9,4 +9,5 @@
     <dimen name="marginLeftControlNewTask">16dp</dimen>
     <dimen name="marginTopControlNewTask">16dp</dimen>
     <dimen name="newTaskLeftGuideline">8dp</dimen>
+    <dimen name="paddingNewCategory">12dp</dimen>
 </resources>
