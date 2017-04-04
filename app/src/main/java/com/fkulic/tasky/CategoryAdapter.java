@@ -20,13 +20,18 @@ public class CategoryAdapter extends BaseAdapter {
         mCategories = categories;
     }
 
-    public void loadCategories(ArrayList<String> categories) {
-        mCategories = categories;
+    public void addNewCategory(String category) {
+        mCategories.add(category);
         notifyDataSetChanged();
     }
 
-    public void addNewCategory(String category) {
-        mCategories.add(category);
+    public void editCategory(String newCategory, int position) {
+        mCategories.set(position, newCategory);
+        notifyDataSetChanged();
+    }
+
+    public void removeCategory(int position) {
+        mCategories.remove(position);
         notifyDataSetChanged();
     }
 

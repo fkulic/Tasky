@@ -10,4 +10,7 @@
     <string name="newCategory">New Category</string>
     <string name="newCategoryWarningLenth">Please enter at least 3 letters.</string>
     <string name="newCategoryWarningExists">Please enter category that does not exist.</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="warningEditDeleteGeneralCategory">Cannot edit or delete General category.</string>
 </resources>

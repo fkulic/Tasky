@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import static com.fkulic.tasky.TaskDBHelper.Schema.CATEGORY_NAME;
 import static com.fkulic.tasky.TaskDBHelper.Schema.TABLE_CATEGORIES;
 
 /**
@@ -60,29 +61,50 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(DROP_TABLE_TASKS);
+        db.execSQL(DROP_TABKE_CATEGORY);
+        this.onCreate(db);
+    }
+
     public void insertTask(Task task) {
         ContentValues cv = new ContentValues();
         cv.put(Schema.TASK_TITLE, task.getTitle());
-        cv.put(Schema.TASK_DESCRIPTION , task.getDescription());
-        cv.put(Schema.TASK_CATEGORY , task.getCategory());
-        cv.put(Schema.TASK_PRIORITY , task.getPriority());
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.insert(Schema.TABLE_TASKS, Schema.TASK_TITLE, cv);
-        sqLiteDatabase.close();
+        cv.put(Schema.TASK_DESCRIPTION, task.getDescription());
+        cv.put(Schema.TASK_CATEGORY, task.getCategory());
+        cv.put(Schema.TASK_PRIORITY, task.getPriority());
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(Schema.TABLE_TASKS, Schema.TASK_TITLE, cv);
+        db.close();
 
     }
 
     public void insertCategory(String category) {
         ContentValues cv = new ContentValues();
         cv.put(Schema.CATEGORY_NAME, category);
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.insert(TABLE_CATEGORIES, Schema.CATEGORY_NAME, cv);
-        sqLiteDatabase.close();
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(TABLE_CATEGORIES, Schema.CATEGORY_NAME, cv);
+        db.close();
+    }
+
+    public void updateCategory(String oldCategory, String newCategory) {
+        ContentValues cv = new ContentValues();
+        cv.put(Schema.CATEGORY_NAME, newCategory);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(Schema.TABLE_CATEGORIES, cv, Schema.CATEGORY_NAME + "=\'" + oldCategory + "\'", null);
+        db.close();
+    }
+
+    public void deleteCategory(String category) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(Schema.TABLE_CATEGORIES, CATEGORY_NAME + "=\'" + category + "\'", null);
+        db.close();
     }
 
     public ArrayList<Task> getTasks() {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery(SELECT_TASKS, null);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(SELECT_TASKS, null);
         ArrayList<Task> tasks = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -97,13 +119,13 @@ public class TaskDBHelper extends SQLiteOpenHelper {
             return new ArrayList<>();
         }
         cursor.close();
-        sqLiteDatabase.close();
+        db.close();
         return tasks;
     }
 
     public ArrayList<String> getCategories() {
-        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery(SELECT_CATEGORIES, null);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(SELECT_CATEGORIES, null);
         ArrayList<String> categories = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -115,12 +137,14 @@ public class TaskDBHelper extends SQLiteOpenHelper {
             return new ArrayList<>();
         }
         cursor.close();
-        sqLiteDatabase.close();
+        db.close();
         return categories;
     }
 
     private void insertDefaultCategories(SQLiteDatabase sb) {
         ContentValues values = new ContentValues();
+        values.put(Schema.CATEGORY_NAME, "General");
+        sb.insert(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME, values);
         values.put(Schema.CATEGORY_NAME, "Job");
         sb.insert(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME, values);
         values.put(Schema.CATEGORY_NAME, "School");
