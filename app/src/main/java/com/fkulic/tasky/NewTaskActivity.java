@@ -41,6 +41,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
     }
 
     private void setUpLabels(Bundle extras) {
+        getActionBar().setTitle(getString(R.string.EditTask));
         Task task = taskFromExtras(extras);
         etNewTaskTitle.setText(task.getTitle());
         sNewTaskCategory.setSelection(TaskDBHelper.getInstance(this).getCategories().indexOf(task.getCategory()));

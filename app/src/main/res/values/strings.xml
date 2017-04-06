@@ -16,4 +16,5 @@
     <string name="titleWarningExists">Cannot create note with same title.</string>
     <string name="newTaskTitleShortWarning">Please enter title longer then 2 characters.</string>
     <string name="save">Save</string>
+    <string name="EditTask">Edit task</string>
 </resources>

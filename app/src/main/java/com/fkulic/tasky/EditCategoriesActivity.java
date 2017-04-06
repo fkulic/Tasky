@@ -92,6 +92,7 @@ public class EditCategoriesActivity extends Activity implements View.OnClickList
     private void popEditDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
+        input.setText(mCategoryAdapter.getItem(position).toString());
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setTitle("Edit category");
         builder.setView(input);
