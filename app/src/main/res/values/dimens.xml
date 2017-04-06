@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="bHeight">50dp</dimen>
+    <dimen name="bHeight">48dp</dimen>
     <dimen name="taskItemPadding">8dp</dimen>
-    <dimen name="taskItemTitleTextSize">20sp</dimen>
-    <dimen name="taskItemCategoryTextSize">18sp</dimen>
+    <dimen name="taskItemTitleTextSize">18sp</dimen>
+    <dimen name="taskItemCategoryTextSize">12sp</dimen>
     <dimen name="etNewTaskTextSize">18sp</dimen>
     <dimen name="tvNewTaskTextSize">18sp</dimen>
     <dimen name="marginLeftControlNewTask">16dp</dimen>
     <dimen name="marginTopControlNewTask">16dp</dimen>
     <dimen name="newTaskLeftGuideline">8dp</dimen>
     <dimen name="paddingNewCategory">12dp</dimen>
+    <dimen name="taskItemSpacing">4dp</dimen>
+    <dimen name="bTextSize">15sp</dimen>
+    <dimen name="actionbarHeight">50dp</dimen>
 </resources>

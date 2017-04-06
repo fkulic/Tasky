@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yellow100"
     tools:context="com.fkulic.tasky.NewTaskActivity">
 
     <android.support.constraint.Guideline
@@ -36,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/marginLeftControlNewTask"
         android:layout_marginTop="8dp"
+        android:textColor="@color/inputColor"
         android:textSize="@dimen/etNewTaskTextSize"
         android:inputType="text"
         app:layout_constraintLeft_toRightOf="@+id/tvNewTaskTitle"
@@ -98,10 +100,11 @@
     <EditText
         android:id="@+id/etNewTaskDescription"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:inputType="textMultiLine"
         android:gravity="left"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toTopOf="@+id/bAddNewTask"
         app:layout_constraintLeft_toLeftOf="@+id/leftConstraintGuideLine"
         app:layout_constraintRight_toRightOf="@+id/rightConstraintGuideLine"
@@ -111,6 +114,10 @@
         android:id="@+id/bAddNewTask"
         android:layout_width="0dp"
         android:layout_height="@dimen/bHeight"
+        android:textColor="@color/bTextColor"
+        android:textAllCaps="true"
+        android:textSize="@dimen/bTextSize"
+        android:background="@color/bBackgroundColor"
         android:text="@string/addNewTask"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

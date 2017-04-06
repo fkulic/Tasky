@@ -39,13 +39,15 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
 
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.simple_spiner_item,
                 TaskDBHelper.getInstance(getApplicationContext()).getCategories());
+        categoryAdapter.setDropDownViewResource(R.layout.simple_spiner_item_dropdown);
         sNewTaskCategory.setAdapter(categoryAdapter);
 
         ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.simple_spiner_item,
                 Task.TaskPriority.getPriorities());
+        priorityAdapter.setDropDownViewResource(R.layout.simple_spiner_item_dropdown);
         sNewTaskPriority.setAdapter(priorityAdapter);
 
         sNewTaskPriority.setSelection(1);
