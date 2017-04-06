@@ -46,14 +46,11 @@ public class EditCategoriesActivity extends Activity implements View.OnClickList
     public void onClick(View v) {
         String category = etNewCategory.getText().toString();
         if (category.trim().length() > 2) {
-            if (TaskDBHelper.getInstance(getApplicationContext()).getCategories().contains(category)) {
-                Toast.makeText(getApplicationContext(), R.string.newCategoryWarningExists, Toast.LENGTH_SHORT).show();
-            } else {
+            if (!checkIfCategoryExists(category)) {
                 TaskDBHelper.getInstance(getApplicationContext()).insertCategory(category);
                 mCategoryAdapter.addNewCategory(category);
                 etNewCategory.setText("");
             }
-
         } else {
             Toast.makeText(getApplicationContext(), R.string.newCategoryWarningLenth, Toast.LENGTH_SHORT).show();
         }
@@ -66,7 +63,7 @@ public class EditCategoriesActivity extends Activity implements View.OnClickList
             Toast.makeText(this, R.string.warningEditDeleteGeneralCategory, Toast.LENGTH_SHORT).show();
             return false;
         }
-        PopupMenu popup = new PopupMenu(getApplicationContext(), view);
+        PopupMenu popup = new PopupMenu(view.getContext(), view);
         popup.getMenuInflater().inflate(R.menu.edit_delete_popup, popup.getMenu());
         popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -114,8 +111,21 @@ public class EditCategoriesActivity extends Activity implements View.OnClickList
     }
 
     private void editCategory(final int position,final String newCategory) {
-        String oldCategory = mCategoryAdapter.getItem(position).toString();
-        TaskDBHelper.getInstance(getApplicationContext()).updateCategory(oldCategory, newCategory);
-        mCategoryAdapter.editCategory(newCategory, position);
+        if (newCategory.trim().length() > 2) {
+            if (!checkIfCategoryExists(newCategory)) {
+                String oldCategory = mCategoryAdapter.getItem(position).toString();
+                TaskDBHelper.getInstance(getApplicationContext()).updateCategory(oldCategory, newCategory);
+                mCategoryAdapter.editCategory(newCategory, position);
+            }
+        }
+
+    }
+
+    private boolean checkIfCategoryExists(String category) {
+        if (TaskDBHelper.getInstance(getApplicationContext()).getCategories().contains(category)) {
+            Toast.makeText(getApplicationContext(), R.string.newCategoryWarningExists, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 }

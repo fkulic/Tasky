@@ -11,10 +11,14 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
-public class ListActivity extends Activity implements View.OnClickListener {
+import static com.fkulic.tasky.TaskAdapter.RESULT_DELETE;
+import static com.fkulic.tasky.TaskAdapter.RESULT_EDIT;
 
-    public static final int REQ_CODE_TASK = 9;
-    public static final int REQ_CODE_CATEGORY = 10;
+public class ListActivity extends Activity implements View.OnClickListener, TaskAdapter.RVClickListener {
+    private static final String TAG = "ListActivity";
+
+    public static final int REQ_CODE_NEW_TASK = 9;
+    public static final int REQ_CODE_EDIT_TASK = 10;
     public static final String KEY_TITLE = "title";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_CATEGORY = "category";
@@ -28,6 +32,9 @@ public class ListActivity extends Activity implements View.OnClickListener {
     RecyclerView.ItemDecoration mItemDecoration;
     Button bEditCategories;
     Button bNewTask;
+
+    private Task oldTask;
+    public static final String KEY_POSITION = "position";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
 
     private void setUpUI() {
         this.rvTasks = (RecyclerView) findViewById(R.id.rvTasks);
-        this.mTaskAdapter = new TaskAdapter(new ArrayList<Task>());
+        this.mTaskAdapter = new TaskAdapter(new ArrayList<Task>(), this);
         this.mManager = new LinearLayoutManager(this);
         this.mItemDecoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
         this.rvTasks.addItemDecoration(this.mItemDecoration);
@@ -60,21 +67,14 @@ public class ListActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = null;
-        int reqCode = 0;
         switch (v.getId()) {
             case R.id.bEditCategories:
                 intent = new Intent(getApplicationContext(), EditCategoriesActivity.class);
-                reqCode = REQ_CODE_CATEGORY;
+                this.startActivity(intent);
                 break;
             case R.id.bNewTask:
                 intent = new Intent(getApplicationContext(), NewTaskActivity.class);
-                reqCode = REQ_CODE_TASK;
-                break;
-            default:
-                break;
-        }
-        if (intent != null) {
-            this.startActivityForResult(intent, reqCode);
+                this.startActivityForResult(intent, REQ_CODE_NEW_TASK);
         }
     }
 
@@ -83,23 +83,52 @@ public class ListActivity extends Activity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case REQ_CODE_CATEGORY:
-                    // TODO: 4.4.2017. processNewCategory(data.getExtras());
-                    break;
-                case REQ_CODE_TASK:
+                case REQ_CODE_NEW_TASK:
                     processNewTask(data.getExtras());
                     break;
+                case REQ_CODE_EDIT_TASK:
+                    editTask(data.getExtras());
+                    break;
+
             }
         }
     }
 
+    private void editTask(Bundle extras) {
+        Task newTask = taskFromExtras(extras);
+        TaskDBHelper.getInstance(this).updateTask(this.oldTask, newTask);
+        mTaskAdapter.editTask(this.oldTask, newTask);
+    }
+
     private void processNewTask(Bundle extras) {
+        Task task = taskFromExtras(extras);
+        TaskDBHelper.getInstance(getApplicationContext()).insertTask(task);
+        mTaskAdapter.addNewTask(task);
+    }
+
+    @Override
+    public void rvClickListener(View view, int position, String popupResult) {
+        if (popupResult.equals(RESULT_EDIT)) {
+            this.oldTask = mTaskAdapter.mTasks.get(position);
+            Intent intent = new Intent(this, NewTaskActivity.class);
+            intent.putExtra(KEY_TITLE, oldTask.getTitle());
+            intent.putExtra(KEY_DESCRIPTION, oldTask.getDescription());
+            intent.putExtra(KEY_CATEGORY, oldTask.getCategory());
+            intent.putExtra(KEY_PRIORITY, oldTask.getPriority());
+            startActivityForResult(intent, REQ_CODE_EDIT_TASK);
+        }
+        if (popupResult.equals(RESULT_DELETE)) {
+            TaskDBHelper.getInstance(this).deleteTask(mTaskAdapter.mTasks.get(position));
+            mTaskAdapter.removeTask(position);
+        }
+    }
+
+    public static Task taskFromExtras(Bundle extras) {
         String title = extras.getString(KEY_TITLE);
         String category = extras.getString(KEY_CATEGORY);
         String priority = extras.getString(KEY_PRIORITY);
         String description = extras.getString(KEY_DESCRIPTION);
         Task task = new Task(title, description, category, priority);
-        TaskDBHelper.getInstance(getApplicationContext()).insertTask(task);
-        mTaskAdapter.addNewTask(task);
+        return task;
     }
 }

@@ -9,7 +9,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import static com.fkulic.tasky.TaskDBHelper.Schema.CATEGORY_NAME;
 import static com.fkulic.tasky.TaskDBHelper.Schema.TABLE_CATEGORIES;
 
 /**
@@ -68,17 +67,37 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public void insertTask(Task task) {
+    private ContentValues setContentValuesForTask(Task task) {
         ContentValues cv = new ContentValues();
         cv.put(Schema.TASK_TITLE, task.getTitle());
         cv.put(Schema.TASK_DESCRIPTION, task.getDescription());
         cv.put(Schema.TASK_CATEGORY, task.getCategory());
         cv.put(Schema.TASK_PRIORITY, task.getPriority());
-        SQLiteDatabase db = getWritableDatabase();
-        db.insert(Schema.TABLE_TASKS, Schema.TASK_TITLE, cv);
-        db.close();
-
+        return cv;
     }
+
+    public long insertTask(Task task) {
+        ContentValues cv = setContentValuesForTask(task);
+        SQLiteDatabase db = getWritableDatabase();
+        long id = db.insert(Schema.TABLE_TASKS, Schema.TASK_TITLE, cv);
+        db.close();
+        return id;
+    }
+
+    public void updateTask(Task oldTask, Task newTask) {
+        ContentValues cv = setContentValuesForTask(newTask);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(Schema.TABLE_TASKS, cv, Schema.TASK_TITLE + "=?", new String[] {oldTask.getTitle()});
+        db.close();
+    }
+
+    public void deleteTask(Task task) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(Schema.TABLE_TASKS, Schema.TASK_TITLE + "=?", new String[] {task.getTitle()});
+        db.close();
+    }
+
+
 
     public void insertCategory(String category) {
         ContentValues cv = new ContentValues();
@@ -92,13 +111,13 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(Schema.CATEGORY_NAME, newCategory);
         SQLiteDatabase db = getWritableDatabase();
-        db.update(Schema.TABLE_CATEGORIES, cv, Schema.CATEGORY_NAME + "=\'" + oldCategory + "\'", null);
+        db.update(Schema.TABLE_CATEGORIES, cv, Schema.CATEGORY_NAME + "=?", new String[] {oldCategory});
         db.close();
     }
 
     public void deleteCategory(String category) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(Schema.TABLE_CATEGORIES, CATEGORY_NAME + "=\'" + category + "\'", null);
+        db.delete(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME + "=?", new String[] {category});
         db.close();
     }
 
@@ -108,10 +127,10 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                String title = cursor.getString(0);
-                String description = cursor.getString(1);
-                String category = cursor.getString(2);
-                String priority = cursor.getString(3);
+                String title = cursor.getString(1);
+                String description = cursor.getString(2);
+                String category = cursor.getString(3);
+                String priority = cursor.getString(4);
                 tasks.add(new Task(title, description, category, priority));
             } while (cursor.moveToNext());
         } else {
@@ -154,6 +173,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         values.put(Schema.CATEGORY_NAME, "Health");
         sb.insert(Schema.TABLE_CATEGORIES, Schema.CATEGORY_NAME, values);
     }
+
 
     static class Schema {
         private static final int DB_VERSION = 1;

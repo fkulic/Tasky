@@ -1,6 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/AppTheme.BarStyle</item>
         <item name="android:windowBackground">@color/yellow100</item>
@@ -8,7 +7,6 @@
 
     <style name="AppTheme.BarStyle" parent="android:Widget.ActionBar">
         <item name="android:background">@color/yellow600</item>
-        <item name="android:icon">@android:color/transparent</item>
         <item name="android:height">@dimen/actionbarHeight</item>
         <item name="android:titleTextStyle">@style/AppTheme.BarStyle.titleTextStyle</item>
     </style>
@@ -17,6 +15,5 @@
         <item name="android:textColor">#333</item>
         <item name="android:textSize">20sp</item>
     </style>
-
 
 </resources>

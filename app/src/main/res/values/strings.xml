@@ -13,4 +13,7 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="warningEditDeleteGeneralCategory">Cannot edit or delete General category.</string>
+    <string name="titleWarningExists">Cannot create note with same title.</string>
+    <string name="newTaskTitleShortWarning">Please enter title longer then 2 characters.</string>
+    <string name="save">Save</string>
 </resources>

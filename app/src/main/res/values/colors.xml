@@ -17,7 +17,7 @@
 
 
     <color name="Urgent">#ff9d7f</color>
-    <color name="High">#ffdf80</color>
+    <color name="High">#ffca75</color>
     <color name="Normal">#fff48e</color>
     <color name="Low">#ccff90</color>
     <color name="bBackgroundColor">@color/yellow300</color>

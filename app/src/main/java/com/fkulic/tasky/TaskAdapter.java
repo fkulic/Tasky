@@ -2,9 +2,11 @@ package com.fkulic.tasky;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,11 +16,19 @@ import java.util.ArrayList;
  */
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+    public static final String RESULT_EDIT = "edit";
+    public static final String RESULT_DELETE = "delete";
 
     ArrayList<Task> mTasks;
+    static RVClickListener mListener;
 
-    public TaskAdapter(ArrayList<Task> tasks) {
+    public interface RVClickListener {
+        public void rvClickListener(View view, int position, String popupResult);
+    }
+
+    public TaskAdapter(ArrayList<Task> tasks, RVClickListener listener) {
         mTasks = tasks;
+        mListener = listener;
     }
 
     @Override
@@ -53,7 +63,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public void editTask(Task oldTask, Task newTask) {
+        mTasks.set(mTasks.indexOf(oldTask), newTask);
+        notifyDataSetChanged();
+    }
+
+    public void removeTask(int position) {
+        mTasks.remove(position);
+        notifyDataSetChanged();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         LinearLayout llTask;
         TextView tvTaskTitle;
         TextView tvTaskDescription;
@@ -65,6 +85,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             this.tvTaskTitle = (TextView) itemView.findViewById(R.id.tvTaskTitle);
             this.tvTaskDescription = (TextView) itemView.findViewById(R.id.tvTaskDescription);
             this.taskCategory = (TextView) itemView.findViewById(R.id.taskCategory);
+
+            itemView.setOnLongClickListener(this);
         }
 
         void colorByPriority(Task task) {
@@ -84,6 +106,30 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 default:
                     break;
             }
+        }
+
+        @Override
+        public boolean onLongClick(final View v) {
+            final int position = this.getLayoutPosition();
+            PopupMenu popup = new PopupMenu(v.getContext(), v);
+            popup.getMenuInflater().inflate(R.menu.edit_delete_popup, popup.getMenu());
+            popup.show();
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menuItemEditCategory:
+                            mListener.rvClickListener(v, position, RESULT_EDIT);
+                            return true;
+                        case R.id.menuItemDeleteCategory:
+                            mListener.rvClickListener(v, position, RESULT_DELETE);
+                            return true;
+                    }
+                    return false;
+                }
+
+            });
+            return true;
         }
     }
 }
