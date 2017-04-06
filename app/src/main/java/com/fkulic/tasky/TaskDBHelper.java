@@ -127,10 +127,10 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                String title = cursor.getString(1);
-                String description = cursor.getString(2);
-                String category = cursor.getString(3);
-                String priority = cursor.getString(4);
+                String title = cursor.getString(0);
+                String description = cursor.getString(1);
+                String category = cursor.getString(2);
+                String priority = cursor.getString(3);
                 tasks.add(new Task(title, description, category, priority));
             } while (cursor.moveToNext());
         } else {
